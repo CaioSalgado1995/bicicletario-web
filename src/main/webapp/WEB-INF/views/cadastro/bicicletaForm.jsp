@@ -18,22 +18,17 @@
 <body>
 	<div class="container">
 	
-		<h1>Cadastro do aluno</h1>
-		<form:form action="${s:mvcUrl('AC#registarAluno').build()}" method="post" commandName="aluno">
+		<h1>Cadastro do bicicleta</h1>
+		<form:form action="${s:mvcUrl('BC#registarBicicleta').build()}" method="post" commandName="bicicleta">
 			<div class="form-group">
-				<label for="nome">Nome:</label>
-				<input type="text" class="form-control" id="nome" name="nome">
-				<form:errors cssClass="text-danger" path="nome"></form:errors>
+				<label for="marca">Marca:</label>
+				<input type="text" class="form-control" id="marca" name="marca">
+				<form:errors cssClass="text-danger" path="marca"></form:errors>
 			</div>
 			<div class="form-group">
-				<label for="registro">Registro Acadêmicao (RA):</label>
-				<input type="text" class="form-control" id="registro" name="registro">	
-				<form:errors cssClass="text-danger" path="registro"></form:errors>
-			</div>
-			<div class="form-group">
-				<label for="curso">Curso:</label>
-				<input type="text" class="form-control" id="curso" name="curso">
-				<form:errors cssClass="text-danger" path="curso"></form:errors>
+				<label for="cor">Cor:</label>
+				<input type="text" class="form-control" id="cor" name="cor">	
+				<form:errors cssClass="text-danger" path="cor"></form:errors>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
