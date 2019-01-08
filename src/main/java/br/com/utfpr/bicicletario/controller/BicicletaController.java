@@ -28,14 +28,14 @@ public class BicicletaController {
 	// fluxo de primeiro cadastro, 
 	@RequestMapping(value="/{registroAluno}",method=RequestMethod.POST)
 	private ModelAndView inserirBicicleta(@PathVariable("registroAluno") String registroAluno, Bicicleta bicicleta) {
-		ModelAndView modelAndView = new ModelAndView("inicial/home");
+		ModelAndView modelAndView = new ModelAndView("registro/entrada");
 		
 		bicicleta.setRegistroAluno(registroAluno);
-		
 		// checar se não tem erros de validação no formulário
 		// buscar dado do usuário na sessão
-		
 		bicicletaDAO.inserir(bicicleta);
+		modelAndView.addObject("registroAluno", registroAluno);
+		
 		
 		return modelAndView;
 	}
