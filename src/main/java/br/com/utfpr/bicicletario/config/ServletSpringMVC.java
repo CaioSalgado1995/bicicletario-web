@@ -7,13 +7,12 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import br.com.utfpr.bicicletario.config.AppWebConfiguration;
 import br.com.utfpr.bicicletario.config.JPAConfiguration;
-import br.com.utfpr.bicicletario.config.SecurityConfiguration;
 
 public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] {SecurityConfiguration.class, AppWebConfiguration.class, JPAConfiguration.class};
+		return new Class[] {AppWebConfiguration.class, JPAConfiguration.class};
 	}
 
 	@Override

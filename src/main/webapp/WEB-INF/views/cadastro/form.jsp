@@ -19,7 +19,7 @@
 	<div class="container">
 	
 		<h1>Cadastro do aluno</h1>
-		<form:form action="${s:mvcUrl('AC#registarAluno').build()}" method="post" commandName="aluno">
+		<form:form action="${s:mvcUrl('AC#registrarAluno').build()}" method="post" commandName="aluno">
 			<div class="form-group">
 				<label for="nome">Nome:</label>
 				<input type="text" class="form-control" id="nome" name="nome">
@@ -29,11 +29,6 @@
 				<label for="registro">Registro Acadêmicao (RA):</label>
 				<input type="text" class="form-control" id="registro" name="registro">	
 				<form:errors cssClass="text-danger" path="registro"></form:errors>
-			</div>
-			<div class="form-group">
-				<label for="curso">Curso:</label>
-				<input type="text" class="form-control" id="curso" name="curso">
-				<form:errors cssClass="text-danger" path="curso"></form:errors>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Cadastrar</button>

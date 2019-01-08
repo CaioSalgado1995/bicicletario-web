@@ -37,7 +37,7 @@ public class JPAConfiguration {
 		
 		factoryBean.setJpaProperties(properties);
 		
-		factoryBean.setPackagesToScan("br.com.utfpr.eventos.models");
+		factoryBean.setPackagesToScan("br.com.utfpr.bicicletario.models");
 		
 		return factoryBean;
 	}

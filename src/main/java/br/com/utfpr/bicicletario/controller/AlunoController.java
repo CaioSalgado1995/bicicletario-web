@@ -17,14 +17,16 @@ public class AlunoController {
 	@Autowired
 	private AlunoDAO alunoDAO;
 
+	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView exibirFormulario() {
 		return new ModelAndView("/cadastro/form");
 	}
 	
 	// fluxo feliz, onde o primeiro cadastro do aluno é feito e logo em seguida o cadastro da sua bicicleta
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView registrarAluno(@Valid Aluno aluno) {
-		ModelAndView modelAndView = new ModelAndView("/cadastro/bicicleta");
+	public ModelAndView registrarAluno(Aluno aluno) {
+		ModelAndView modelAndView = new ModelAndView("/cadastro/bicicletaForm");
+		modelAndView.addObject("aluno", aluno);
 		
 		// checar erros de validação do formulário
 		

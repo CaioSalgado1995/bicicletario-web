@@ -19,7 +19,7 @@
 	<div class="container">
 	
 		<h1>Cadastro do bicicleta</h1>
-		<form:form action="${s:mvcUrl('BC#registarBicicleta').build()}" method="post" commandName="bicicleta">
+		<form:form action="${s:mvcUrl('BC#inserirBicicleta').arg(0, aluno.registro).build()}" method="post" commandName="bicicleta">
 			<div class="form-group">
 				<label for="marca">Marca:</label>
 				<input type="text" class="form-control" id="marca" name="marca">
@@ -30,6 +30,9 @@
 				<input type="text" class="form-control" id="cor" name="cor">	
 				<form:errors cssClass="text-danger" path="cor"></form:errors>
 			</div>
+			
+			<input type="hidden" value="${aluno.registro}">
+			<input type="hidden" value="${aluno.nome}">
 			
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</form:form>

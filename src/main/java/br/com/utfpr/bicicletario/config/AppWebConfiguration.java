@@ -9,8 +9,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import br.com.utfpr.bicicletario.controller.AlunoController;
+import br.com.utfpr.bicicletario.dao.AlunoDAO;
+import br.com.utfpr.bicicletario.models.Aluno;
+
 @EnableWebMvc
-@ComponentScan(basePackageClasses={})
+@ComponentScan(basePackageClasses={AlunoController.class, AlunoDAO.class, Aluno.class})
 public class AppWebConfiguration extends WebMvcConfigurerAdapter {
 
 	@Bean

@@ -1,7 +1,10 @@
 package br.com.utfpr.bicicletario.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,10 +20,17 @@ public class BicicletaController {
 	private BicicletaDAO bicicletaDAO;
 
 
+	@RequestMapping(method=RequestMethod.GET)
+	private ModelAndView exibirCadastroBicicleta() {
+		return new ModelAndView("/cadastro/bicicletaForm");
+	}
+	
 	// fluxo de primeiro cadastro, 
-	@RequestMapping(method=RequestMethod.POST)
-	private ModelAndView inserirBicicleta(@Valid Bicicleta bicicleta) {
+	@RequestMapping(value="/{registroAluno}",method=RequestMethod.POST)
+	private ModelAndView inserirBicicleta(@PathVariable("registroAluno") String registroAluno, Bicicleta bicicleta) {
 		ModelAndView modelAndView = new ModelAndView("inicial/home");
+		
+		bicicleta.setRegistroAluno(registroAluno);
 		
 		// checar se não tem erros de validação no formulário
 		// buscar dado do usuário na sessão

@@ -10,8 +10,6 @@ public class Aluno {
 	private String registro;
 	
 	private String nome;
-	
-	private String curso;
 
 	public String getRegistro() {
 		return registro;
@@ -27,14 +25,6 @@ public class Aluno {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCurso() {
-		return curso;
-	}
-
-	public void setCurso(String curso) {
-		this.curso = curso;
 	}
 	
 	
