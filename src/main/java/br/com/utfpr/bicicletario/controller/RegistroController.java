@@ -17,8 +17,8 @@ public class RegistroController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView inserirRegistro(RegistroEntrada registroEntrada) {
-		ModelAndView modelAndView = new ModelAndView("/inicial/home");
+	public ModelAndView inserirRegistro() {
+		ModelAndView modelAndView = new ModelAndView("home/index");
 		return modelAndView;
 	}
 	

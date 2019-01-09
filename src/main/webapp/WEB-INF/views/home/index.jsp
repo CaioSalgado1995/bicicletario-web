@@ -27,28 +27,26 @@
 <title>Cadastro de registro - Form</title>
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <a
+		class="navbar-brand" href="#">Bicicletário</a>
+	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav"> 
+			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirFormulario').build()}">Cadastrar aluno</a> 
+			<a class="nav-item nav-link" href="${s:mvcUrl('RC#exibirFormulario').build()}">Registrar entrada</a> 
+			<a class="nav-item nav-link" href="#">Registrar saída</a>
+			<a class="nav-item nav-link" href="#">Sobre</a>
+			
+		</div>
+	</div>
+	</nav>
 	<div class="container">
 
-		<h1>Registro de entrada do aluno:</h1>
-		<form:form action="${s:mvcUrl('RC#inserirRegistro').build()}"
-			method="post" commandName="registroEntrada">
+		<div class="alert alert-info" style="margin-top: 20px;">
+			<strong>Bicicletário UTFPR!</strong><br/>
+			Bem vindo ao bicicletário, aqui você pode ...
+		</div>
 
-			<div class="alert alert-warning alert-dismissible">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Aviso: </strong> o campo de data está no seguinte formato dd/mm/aaaa hh:mm, sendo que a hora está no formato 24h
-			</div>
 
-			<div class="form-group">
-				<label for="dataEntrada">Data de entrada:</label> <input
-					type="datetime-local" class="form-control" id="dataEntrada"
-					name="data">
-			</div>
-
-			<input type="hidden" id="registroAluno" name="registroAluno"
-				value="${registroAluno}">
-
-			<button type="submit" class="btn btn-primary">Registrar Entrada</button>
-		</form:form>
 	</div>
 </body>
 </html>

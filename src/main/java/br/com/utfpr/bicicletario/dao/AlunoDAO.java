@@ -1,5 +1,7 @@
 package br.com.utfpr.bicicletario.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -17,5 +19,10 @@ public class AlunoDAO {
 	
 	public void inserir(Aluno aluno) {
 		manager.persist(aluno);
+	}
+	
+	public List<Aluno> listar() {
+		return manager.createQuery("select a from Aluno a", Aluno.class)
+				.getResultList();
 	}
 }
