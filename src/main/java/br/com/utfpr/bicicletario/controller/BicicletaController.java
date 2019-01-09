@@ -25,17 +25,13 @@ public class BicicletaController {
 		return new ModelAndView("/cadastro/bicicletaForm");
 	}
 	
-	// fluxo de primeiro cadastro, 
-	@RequestMapping(value="/{registroAluno}",method=RequestMethod.POST)
-	private ModelAndView inserirBicicleta(@PathVariable("registroAluno") String registroAluno, Bicicleta bicicleta) {
-		ModelAndView modelAndView = new ModelAndView("registro/entrada");
+	@RequestMapping(method=RequestMethod.POST)
+	private ModelAndView inserirBicicleta(Bicicleta bicicleta) {
+		ModelAndView modelAndView = new ModelAndView("redirect:registro/" + bicicleta.getRegistroAluno());
 		
-		bicicleta.setRegistroAluno(registroAluno);
 		// checar se não tem erros de validação no formulário
 		// buscar dado do usuário na sessão
 		bicicletaDAO.inserir(bicicleta);
-		modelAndView.addObject("registroAluno", registroAluno);
-		
 		
 		return modelAndView;
 	}
