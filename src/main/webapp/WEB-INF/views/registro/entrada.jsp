@@ -39,8 +39,8 @@
 			</div>
 
 			<div class="form-group">
-				<label for="dataEntrada">Data de entrada:</label> <input
-					type="datetime-local" class="form-control" id="dataEntrada"
+				<label for="data">Data de entrada:</label> <input
+					type="datetime-local" class="form-control" id="data"
 					name="data">
 			</div>
 
