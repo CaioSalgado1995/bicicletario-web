@@ -3,6 +3,7 @@ package br.com.utfpr.bicicletario.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -24,5 +25,17 @@ public class AlunoDAO {
 	public List<Aluno> listar() {
 		return manager.createQuery("select a from Aluno a", Aluno.class)
 				.getResultList();
+	}
+	
+	public boolean existe(Aluno aluno) {
+		try {
+			manager
+				.createQuery("select a from Aluno a where a.registro = :registro", Aluno.class)
+				.setParameter("registro", aluno.getRegistro())
+				.getSingleResult();
+		} catch (NoResultException nre) {
+			return false;
+		}
+		return true;
 	}
 }

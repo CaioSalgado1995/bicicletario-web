@@ -19,6 +19,15 @@
 	<div class="container">
 	
 		<h1>Cadastro do aluno</h1>
+		
+		<!-- Mensagem de erro ao tentar cadastrar (campo vazio ou aluno já cadastrado) -->
+		<c:if test="${not empty mensagemErro}">
+			<div class="alert alert-danger" style="margin-top: 20px;">
+				<c:out value="${mensagemErro}"></c:out> 
+			</div>
+		</c:if>
+		
+		<!-- Formulário de cadastro -->
 		<form:form action="${s:mvcUrl('AC#registrarAluno').build()}" method="post" commandName="aluno">
 			<div class="form-group">
 				<label for="nome">Nome:</label>
