@@ -1,20 +1,13 @@
 package br.com.utfpr.bicicletario.models;
 
-import java.util.Date;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 public class RegistroEntrada {
-
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private int id;
 	
 	private String registroAluno;
 	
-	private Date data;
+	private String data;
 	
 	private String status;
 
@@ -34,11 +27,11 @@ public class RegistroEntrada {
 		this.registroAluno = registroAluno;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 

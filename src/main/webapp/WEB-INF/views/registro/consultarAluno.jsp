@@ -24,29 +24,43 @@
 <link type="text/css"
 	href="<c:url value='/resources/css/bootstrap.min.css'/>"
 	rel="stylesheet">
-<title>Cadastro de registro - Form</title>
+<title>Lista de alunos</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <a
-		class="navbar-brand" href="#">Bicicletário</a>
-	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-		<div class="navbar-nav"> 
-			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirFormulario').build()}">Cadastrar aluno</a> 
-			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirListaAlunos').build()}">Registrar entrada</a> 
-			<a class="nav-item nav-link" href="#">Registrar saída</a>
-			<a class="nav-item nav-link" href="#">Sobre</a>
-			
-		</div>
-	</div>
-	</nav>
 	<div class="container">
-
-		<div class="alert alert-info" style="margin-top: 20px;">
-			<strong>Bicicletário UTFPR!</strong><br/>
-			Bem vindo ao bicicletário, aqui você pode ...
-		</div>
-
-
+		<h1>Lista de alunos já cadastrados:</h1>
+		<c:if test="${listaVazia}">
+			<h2><c:out value="${mensagemErro}"></c:out></h2>
+		</c:if>
+		<c:if test="${!listaVazia}">
+			<div class="row" style="margin-top:20px;">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Registro</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${listaAlunos}" var="aluno">
+							<tr>
+								<th scope="row"></th>
+								<th>${aluno.nome}</th>
+								<th>${aluno.registro}</th>
+								<th>
+									<a class="btn btn-primary" 
+									   href="${s:mvcUrl('RC#registroEntradaAlunoJaCadastrado').arg(0,aluno.registro).build()}">
+										Selecionar
+									</a>
+								</th>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>			
+		</c:if>
 	</div>
 </body>
 </html>
