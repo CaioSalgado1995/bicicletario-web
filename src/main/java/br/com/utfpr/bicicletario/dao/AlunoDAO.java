@@ -23,7 +23,7 @@ public class AlunoDAO {
 	}
 	
 	public List<Aluno> listar() {
-		return manager.createQuery("select a from Aluno a", Aluno.class)
+		return manager.createQuery("select a from Aluno a order by a.nome asc", Aluno.class)
 				.getResultList();
 	}
 	
