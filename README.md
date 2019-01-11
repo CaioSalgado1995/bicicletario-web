@@ -28,14 +28,14 @@ Projeto de tecnologia para melhorar o atendimento no bicicletário da Universida
 - Bootstrap - temas e layouts de tela
 - Maria DB - banco de dados relacional sql
 
-## Estruturas de pacotes java
+## Estrutura de pacotes java
 
 - `br.com.utfpr.bicicletario.config` - pacote que contêm todas as classes de configuração para utilização do spring mvc e jpa
 - `br.com.utfpr.bicicletario.controller` - pacote que contêm todas as controllers do projeto
 - `br.com.utfpr.bicicletario.dao` - pacote que contêm todas as classes DAO que fazem acesso ao banco de dados
 - `br.com.utfpr.bicicletario.models` - pacote que contêm todas as entidades que são geradas ao inicializar o projeto, bem como outras modelos necessárias
 
-## Views
+## Estrutura de views
 
 - WEB-INF/views/cadastro - contêm os formulários de cadastro de aluno e bicicleta
 - WEB-INF/views/home - contêm as telas de entrada e sobre
@@ -61,9 +61,14 @@ Projeto de tecnologia para melhorar o atendimento no bicicletário da Universida
 
 ## Desenvolvedor
 
-- Caio Luiz Salgado - Bacharelado em Sistemas de Informação - Universidade Tecnológica Federal do Paraná
+- ***Caio Luiz Salgado*** - Bacharelado em Sistemas de Informação - Universidade Tecnológica Federal do Paraná
 
 ## Colaboradores
 
-- Caio Luiz Salgado - Bacharelado em Sistemas de Informação - Universidade Tecnológica Federal do Paraná
-- Lucas Paulatti Kassar - Engenharia de controle a automação - Universidade Tecnológica Federal do Paraná
+- ***Lucas Paulatti Kassar*** - Engenharia de controle a automação - Universidade Tecnológica Federal do Paraná
+
+## Build e empacotamento
+
+- `mvn compile`
+
+- `mvn package` - Gera um arquivo .war
