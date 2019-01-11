@@ -28,39 +28,32 @@
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <a
-		class="navbar-brand" href="#">Bicicletário</a>
+		class="navbar-brand" href="${s:mvcUrl('HC#exibeHome').build()}">Bicicletário</a>
 	<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 		<div class="navbar-nav"> 
 			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirFormulario').build()}">Cadastrar aluno</a> 
 			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirListaAlunos').build()}">Registrar entrada</a> 
 			<a class="nav-item nav-link" href="${s:mvcUrl('AC#exibirListaAlunosComRegistroAtivo').build()}">Registrar saída</a>
-			<a class="nav-item nav-link" href="${s:mvcUrl('RC#consultarRegistrosFechados').build()}">Consultar Registros Fechados</a>
-			<a class="nav-item nav-link" href="${s:mvcUrl('SC#exibeSobre').build()}">Sobre</a>
+			<a class="nav-item nav-link active" href="${s:mvcUrl('SC#exibeSobre').build()}">Sobre</a>
 			
 		</div>
 	</div>
 	</nav>
 	<div class="container">
-
-		<c:if test="${not empty mensagemErro}">
-			<div class="alert alert-danger" style="margin-top: 20px;">
-				<strong>Erro: </strong><c:out value="${mensagemErro}"/>
-			</div>
-		</c:if>
-		
-		<c:if test="${not empty mensagemSucesso}">
-			<div class="alert alert-success" style="margin-top: 20px;">
-				<c:out value="${mensagemSucesso}"/>
-			</div>
-		</c:if>
-
 		<div class="alert alert-info" style="margin-top: 10px;">
-			<strong>Bicicletário UTFPR!</strong><br/>
-			Bem vindo ao bicicletário, aqui você pode ...
+			<strong>Objetivo desse projeto:</strong><br/>
+			<p> Esse projeto foi criado com o objetivo de, através do uso da tecnologia, facilitar a vida
+			dos profissionais que monitoram o bicicletário da Universidade Tecnológica Federal do Paraná, 
+			assim, através desse sistema, o funcionário responsável poderá fazer registros de entrada e saída de alunos,
+			bem como consultar históricos.</p> <br/>
+			<p> Futuramente poderemos melhorar esse projeto adicionando novas funcionalidades, de acordo com a necessidade
+			 de quem utiliza-o.</p>
 		</div>
-		
-	
-
+		<div class="alert alert-warning" style="margin-top: 10px;">
+			<strong>Esse projeto foi desenvolvido pelos alunos:</strong><br/>
+			<p><strong>Caio Luiz Salgado </strong> - DAINF - Bacharelado em Sistemas de informação <br/>
+			<strong>Lucas Paulatti Kassar </strong> - XXXXX - Engenharia de controle e automação</p>
+		</div>
 	</div>
 </body>
 </html>
