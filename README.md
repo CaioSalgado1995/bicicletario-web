@@ -47,13 +47,13 @@ Projeto de tecnologia para melhorar o atendimento no bicicletário da Universida
 
 - Configuração da base de dados esperada pelo projeto
 
-`
+```java
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setUsername("root");
 		dataSource.setPassword("root");
 		dataSource.setUrl("jdbc:mariadb://localhost:3306/utfpr_bicicletario");
 		dataSource.setDriverClassName("org.mariadb.jdbc.Driver");
-`
+```
 
 ## Deploy no servidor tomcat
 
