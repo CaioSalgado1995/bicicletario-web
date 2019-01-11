@@ -2,9 +2,11 @@ package br.com.utfpr.bicicletario.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,18 +29,23 @@ public class AlunoController {
 	private RegistroDAO registroEntradaDAO;
 	
 	private static final String MENSAGEM_ERRO = "mensagemErro";
+	private static final String FORMULARIO_ALUNO = "/cadastro/form";
 
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView exibirFormulario() {
-		return new ModelAndView("/cadastro/form");
+		return new ModelAndView(FORMULARIO_ALUNO);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView registrarAluno(Aluno aluno, RedirectAttributes redirectAttributes) {
+	public ModelAndView registrarAluno(@Valid Aluno aluno, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView;
 		
+		if(bindingResult.hasErrors()) {
+			return new ModelAndView(FORMULARIO_ALUNO);
+		}
+		
 		if(alunoDAO.existe(aluno)) {
-			modelAndView = new ModelAndView("/cadastro/form");
+			modelAndView = new ModelAndView(FORMULARIO_ALUNO);
 			modelAndView.addObject(MENSAGEM_ERRO, "Aluno já cadastrado");
 		}else {
 			alunoDAO.inserir(aluno);
