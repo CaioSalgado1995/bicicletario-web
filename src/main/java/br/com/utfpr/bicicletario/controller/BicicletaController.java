@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,18 +26,17 @@ public class BicicletaController {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	private ModelAndView inserirBicicleta(Bicicleta bicicleta) {
+	private ModelAndView inserirBicicleta(@Valid Bicicleta bicicleta, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView("redirect:registro/" + bicicleta.getRegistroAluno());
 		
-		// checar se não tem erros de validação no formulário
-		// buscar dado do usuário na sessão
+
+		if(bindingResult.hasErrors()) {
+			return new ModelAndView("/cadastro/bicicletaForm");
+		}
+		
 		bicicletaDAO.inserir(bicicleta);
 		
 		return modelAndView;
 	}
-	
-	// no caso de existir um novo item do menu para cadastro de bicicletas
-	// criar novo método ou chamar método acima passando uma flag (primeiroCadastro = true ou false ?)
-	// pensar a respeito se realmente será necessário
 	
 }

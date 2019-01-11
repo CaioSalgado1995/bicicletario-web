@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public class Bicicleta {
 
@@ -14,8 +16,10 @@ public class Bicicleta {
 	
 	private String registroAluno;
 	
+	@NotEmpty(message = "O campo não pode estar vazio")
 	private String marca;
 	
+	@NotEmpty(message = "O campo não pode estar vazio")
 	private String cor;
 
 	public int getId() {

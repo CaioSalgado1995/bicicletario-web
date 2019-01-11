@@ -22,17 +22,17 @@
 		<form:form action="${s:mvcUrl('BC#inserirBicicleta').build()}" method="post" commandName="bicicleta">
 			<div class="form-group">
 				<label for="marca">Marca:</label>
-				<input type="text" class="form-control" id="marca" name="marca">
-				<form:errors cssClass="text-danger" path="marca"></form:errors>
+				<input class="form-control" name="marca" id="marca"/>
+				<form:errors cssClass="text-danger" path="marca"/>
 			</div>
 			<div class="form-group">
 				<label for="cor">Cor:</label>
-				<input type="text" class="form-control" id="cor" name="cor">	
-				<form:errors cssClass="text-danger" path="cor"></form:errors>
+				<input class="form-control" name="cor" id="cor" />	
+				<form:errors cssClass="text-danger" path="cor"/>
 			</div>
-			
-			<input type="hidden" name="registroAluno" id="registroAluno" value="${registroAluno}">
-			
+
+			<input type="hidden" name="registroAluno" id="registroAluno" value="${registroAluno}" />
+
 			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</form:form>
 	</div>
