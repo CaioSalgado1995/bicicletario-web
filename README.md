@@ -3,22 +3,23 @@ Projeto de tecnologia para melhorar o atendimento no bicicletário da Universida
 
 ## Mapeamentos
 
-- localhost:8080/bicicletario/aluno GET *Exibe o formulário de cadastro do aluno*
-- localhost:8080/bicicletario/aluno POST *Envia o formulário de cadastro do aluno*
-- localhost:8080/bicicletario/aluno/lista GET *Exibe lista de alunos já cadastrados*
-- localhost:8080/bicicletario/aluno/lista/ativos GET *Exibe lista de alunos já cadastrados que tem registro de entrada*
-- localhost:8080/bicicletario/bicicleta GET *Exibe o formulário de cadastro de bicicleta*
-- localhost:8080/bicicletario/bicicleta POST *Envia o formulário de cadastro da bicicleta*
-- localhost:8080/bicicletario/home GET *Exibe a home, que contêm todas as demais opções presentes no software*
-- localhost:8080/bicicletario/registro/{registroAluno} GET *Exibe o formulário de registro de entrada de um aluno*
-- localhost:8080/bicicletario/registro/saida/{registroAluno} GET *Exibe o formulário de registro de saída de um aluno* 
-- localhost:8080/bicicletario/registro POST *Envia o formulário para registro de entrada de um aluno*
-- localhost:8080/bicicletario/registro/saida POST *Envia o formulário para registro de saída de um aluno*
-- localhost:8080/bicicletario/registro/finalizados GET *Exibe tela com listagem dos registros já finalizados*
-- localhosT:8080/bicicletario/sobre GET *Exibe tela explicativa sobre a aplicação e os desenvolvedores envolvidos*
+- localhost:8080/bicicletario/aluno _GET_ *Exibe o formulário de cadastro do aluno*
+- localhost:8080/bicicletario/aluno _POST_ *Envia o formulário de cadastro do aluno*
+- localhost:8080/bicicletario/aluno/lista _GET_ *Exibe lista de alunos já cadastrados*
+- localhost:8080/bicicletario/aluno/lista/ativos _GET_ *Exibe lista de alunos já cadastrados que tem registro de entrada*
+- localhost:8080/bicicletario/bicicleta _GET_ *Exibe o formulário de cadastro de bicicleta*
+- localhost:8080/bicicletario/bicicleta _POST_ *Envia o formulário de cadastro da bicicleta*
+- localhost:8080/bicicletario/home _GET_ *Exibe a home, que contêm todas as demais opções presentes no software*
+- localhost:8080/bicicletario/registro/{registroAluno} _GET_ *Exibe o formulário de registro de entrada de um aluno*
+- localhost:8080/bicicletario/registro/saida/{registroAluno} _GET_ *Exibe o formulário de registro de saída de um aluno* 
+- localhost:8080/bicicletario/registro _POST_ *Envia o formulário para registro de entrada de um aluno*
+- localhost:8080/bicicletario/registro/saida _POST_ *Envia o formulário para registro de saída de um aluno*
+- localhost:8080/bicicletario/registro/finalizados _GET_ *Exibe tela com listagem dos registros já finalizados*
+- localhosT:8080/bicicletario/sobre _GET_ *Exibe tela explicativa sobre a aplicação e os desenvolvedores envolvidos*
 
 ## Tecnologias utilizadas
 
+- jdk 1.8
 - Maven - gerenciamento de dependências
 - Spring MVC - framework web
 - Hibernate/JPA - validações e persistência com o banco de dados
