@@ -31,17 +31,21 @@
 
 		<h1>Registro de entrada do aluno:</h1>
 		<form:form action="${s:mvcUrl('RC#inserirRegistro').build()}"
-			method="post" commandName="registroEntrada">
+			method="post" commandName="registro">
 
 			<div class="alert alert-warning alert-dismissible">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Aviso: </strong> o campo de data está no seguinte formato dd/mm/aaaa hh:mm, sendo que a hora está no formato 24h
+				<strong>Aviso: </strong> preencha os campos de data e hora.
 			</div>
 
 			<div class="form-group">
-				<label for="data">Data de entrada:</label> <input
-					type="datetime-local" class="form-control" id="data"
-					name="data">
+				<label for="dataEntrada">Data de entrada:</label> 
+				<input type="date" class="form-control" id="data" name="dataEntrada">
+			</div>
+			
+			<div class="form-group">
+				<label for="horarioEntrada">Horário de entrada:</label> 
+				<input type="time" class="form-control" id="horario" name="horarioEntrada">
 			</div>
 
 			<input type="hidden" id="registroAluno" name="registroAluno"
