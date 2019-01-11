@@ -30,10 +30,10 @@ Projeto de tecnologia para melhorar o atendimento no bicicletário da Universida
 
 ## Estruturas de pacotes java
 
-- br.com.utfpr.bicicletario.config - pacote que contêm todas as classes de configuração para utilização do spring mvc e jpa
-- br.com.utfpr.bicicletario.controller - pacote que contêm todas as controllers do projeto
-- br.com.utfpr.bicicletario.dao - pacote que contêm todas as classes DAO que fazem acesso ao banco de dados
-- br.com.utfpr.bicicletario.models - pacote que contêm todas as entidades que são geradas ao inicializar o projeto, bem como outras modelos necessárias
+- `br.com.utfpr.bicicletario.config` - pacote que contêm todas as classes de configuração para utilização do spring mvc e jpa
+- `br.com.utfpr.bicicletario.controller` - pacote que contêm todas as controllers do projeto
+- `br.com.utfpr.bicicletario.dao` - pacote que contêm todas as classes DAO que fazem acesso ao banco de dados
+- `br.com.utfpr.bicicletario.models` - pacote que contêm todas as entidades que são geradas ao inicializar o projeto, bem como outras modelos necessárias
 
 ## Views
 
