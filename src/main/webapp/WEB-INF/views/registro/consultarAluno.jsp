@@ -28,10 +28,12 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Lista de alunos já cadastrados:</h1>
+		<h1><c:out value="${tituloPagina}"/></h1>
+		
 		<c:if test="${listaVazia}">
-			<h2><c:out value="${mensagemErro}"></c:out></h2>
+			<h2><c:out value="${mensagemErro}"/></h2>
 		</c:if>
+		
 		<c:if test="${!listaVazia}">
 			<div class="row" style="margin-top:20px;">
 				<table class="table">
@@ -50,10 +52,18 @@
 								<th>${aluno.nome}</th>
 								<th>${aluno.registro}</th>
 								<th>
-									<a class="btn btn-primary" 
-									   href="${s:mvcUrl('RC#registroEntradaAlunoJaCadastrado').arg(0,aluno.registro).build()}">
-										Selecionar
-									</a>
+									<c:if test="${registrarEntrada}">
+										<a class="btn btn-primary" 
+										   href="${s:mvcUrl('RC#registroEntradaAlunoJaCadastrado').arg(0,aluno.registro).build()}">
+											Selecionar
+										</a>
+									</c:if>
+									<c:if test="${registrarSaida}">
+										<a class="btn btn-primary" 
+										   href="${s:mvcUrl('RC#registroSaidaAluno').arg(0,aluno.registro).build()}">
+											Selecionar
+										</a>
+									</c:if>
 								</th>
 							</tr>
 						</c:forEach>

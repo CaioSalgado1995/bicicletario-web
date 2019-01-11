@@ -38,4 +38,11 @@ public class AlunoDAO {
 		}
 		return true;
 	}
+	
+	public List<Aluno> listarAlunosComRegistroEntrada(List<String> listaRegistrosAlunos){
+		return manager
+				.createQuery("select a from Aluno a where a.registro in (?1)", Aluno.class)
+				.setParameter(1, listaRegistrosAlunos)
+				.getResultList();
+	}
 }

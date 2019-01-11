@@ -11,7 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.utfpr.bicicletario.dao.AlunoDAO;
+import br.com.utfpr.bicicletario.dao.RegistroDAO;
 import br.com.utfpr.bicicletario.models.Aluno;
+import br.com.utfpr.bicicletario.models.Registro;
+import br.com.utfpr.bicicletario.models.StatusRegistro;
 
 @Controller
 @RequestMapping("/aluno")
@@ -19,21 +22,45 @@ public class AlunoController {
 	
 	@Autowired
 	private AlunoDAO alunoDAO;
+	
+	@Autowired
+	private RegistroDAO registroEntradaDAO;
+	
+	private static final String MENSAGEM_ERRO = "mensagemErro";
 
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView exibirFormulario() {
 		return new ModelAndView("/cadastro/form");
 	}
 	
+	@RequestMapping(method=RequestMethod.POST)
+	public ModelAndView registrarAluno(Aluno aluno, RedirectAttributes redirectAttributes) {
+		ModelAndView modelAndView;
+		
+		if(alunoDAO.existe(aluno)) {
+			modelAndView = new ModelAndView("/cadastro/form");
+			modelAndView.addObject(MENSAGEM_ERRO, "Aluno já cadastrado");
+		}else {
+			alunoDAO.inserir(aluno);
+			modelAndView = new ModelAndView("redirect:bicicleta");
+			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistro());
+		}
+		
+		return modelAndView;
+	}
+	
 	@RequestMapping(value="/lista",method=RequestMethod.GET)
 	public ModelAndView exibirListaAlunos() {
 		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
+		modelAndView.addObject("tituloPagina", "Lista de alunos já cadastrados");
+		modelAndView.addObject("registrarEntrada", true);
+		modelAndView.addObject("registrarSaida", false);
 		
 		List<Aluno> listaAlunos = alunoDAO.listar();
 		
 		if(listaAlunos.isEmpty()) {
 			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject("mensagemErro", 
+			modelAndView.addObject(MENSAGEM_ERRO, 
 					"Não existe nenhum aluno cadastrado, favor cadatrar um aluno antes de registrar sua entrada");
 		}else {
 			modelAndView.addObject("listaAlunos", listaAlunos);
@@ -42,21 +69,22 @@ public class AlunoController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView registrarAluno(Aluno aluno, RedirectAttributes redirectAttributes) {
-		ModelAndView modelAndView;
+	@RequestMapping(value="/lista/ativos",method=RequestMethod.GET)
+	public ModelAndView exibirListaAlunosComRegistroAtivo() {
+		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
+		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
+		modelAndView.addObject("registrarEntrada", false);
+		modelAndView.addObject("registrarSaida", true);
 		
-		// TODO checar erros de validação do formulário, 
-		// utilizar a especificação de validação do hibernate
-		// se o aluno já existe gera mensagem de erro na tela
+		List<Registro> listaRegistro = registroEntradaDAO.listaRegistroPorStatus(StatusRegistro.ATIVO.getCodigoStatus());
 		
-		if(alunoDAO.existe(aluno)) {
-			modelAndView = new ModelAndView("/cadastro/form");
-			modelAndView.addObject("mensagemErro", "Aluno já cadastrado");
+		if(listaRegistro.isEmpty()) {
+			modelAndView.addObject("listaVazia", true);
+			modelAndView.addObject(MENSAGEM_ERRO, "Não existe nenhum aluno com registro de entrada.");
 		}else {
-			alunoDAO.inserir(aluno);
-			modelAndView = new ModelAndView("redirect:bicicleta");
-			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistro());
+			List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
+			List<Aluno> listaAlunos = alunoDAO.listarAlunosComRegistroEntrada(registrosAlunos);
+			modelAndView.addObject("listaAlunos", listaAlunos);
 		}
 		
 		return modelAndView;
