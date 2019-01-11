@@ -3,6 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -31,21 +32,22 @@
 
 		<h1>Registro de entrada do aluno:</h1>
 		<form:form action="${s:mvcUrl('RC#atualizarRegistroComSaida').build()}"
-			method="post" commandName="registro">
+			method="post" commandName="baseRegistro">
 
-			<div class="alert alert-warning alert-dismissible">
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-				<strong>Aviso: </strong> preencha os campos de data e hora.
+			<div class="alert alert-warning">
+				<strong>Aviso: </strong> prencha o campo de horário.
 			</div>
 
 			<div class="form-group">
-				<label for="dataEntrada">Data de saida:</label> 
-				<input type="date" class="form-control" id="data" name="dataSaida">
+				<label>
+					Data de saída: <fmt:formatDate value="${dataAtual}"></fmt:formatDate> 
+				</label> 
 			</div>
 			
 			<div class="form-group">
-				<label for="horarioEntrada">Horário de entrada:</label> 
-				<input type="time" class="form-control" id="horario" name="horarioSaida">
+				<label for="horarioEntrada">Horário de saída:</label> 
+				<input type="time" class="form-control" id="horario" name="horario">
+				<form:errors cssClass="text-danger" path="horario"></form:errors>
 			</div>
 
 			<input type="hidden" id="registroAluno" name="registroAluno"
