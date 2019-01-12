@@ -30,7 +30,7 @@
 <body>
 	<div class="container">
 
-		<h1>Registro de entrada do aluno:</h1>
+		<h1>Registro de saída do aluno:</h1>
 		<form:form action="${s:mvcUrl('RC#atualizarRegistroComSaida').build()}"
 			method="post" commandName="baseRegistro">
 
