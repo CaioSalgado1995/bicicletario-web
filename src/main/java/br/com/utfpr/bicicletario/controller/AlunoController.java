@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,27 +38,8 @@ public class AlunoController {
 		return new ModelAndView(FORMULARIO_ALUNO);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView registrarAluno(@Valid Aluno aluno, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		ModelAndView modelAndView;
-		
-		if(bindingResult.hasErrors()) {
-			return new ModelAndView(FORMULARIO_ALUNO);
-		}
-		
-		if(alunoDAO.existe(aluno)) {
-			modelAndView = new ModelAndView(FORMULARIO_ALUNO);
-			modelAndView.addObject(MENSAGEM_ERRO, "Aluno já cadastrado");
-		}else {
-			alunoDAO.inserir(aluno);
-			modelAndView = new ModelAndView("redirect:bicicleta");
-			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistro());
-		}
-		
-		return modelAndView;
-	}
-	
 	@RequestMapping(value="/lista",method=RequestMethod.GET)
+	@Cacheable(value="listaAlunos")
 	public ModelAndView exibirListaAlunos() {
 		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
 		modelAndView.addObject("tituloPagina", "Lista de alunos já cadastrados");
@@ -77,6 +60,7 @@ public class AlunoController {
 	}
 	
 	@RequestMapping(value="/lista/ativos",method=RequestMethod.GET)
+	@Cacheable(value="listaAlunosComRegistroEntrada")
 	public ModelAndView exibirListaAlunosComRegistroAtivo() {
 		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
 		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
@@ -92,6 +76,27 @@ public class AlunoController {
 			List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
 			List<Aluno> listaAlunos = alunoDAO.listarAlunosComRegistroEntrada(registrosAlunos);
 			modelAndView.addObject("listaAlunos", listaAlunos);
+		}
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(method=RequestMethod.POST)
+	@CacheEvict(value="listaAlunos" ,allEntries=true)
+	public ModelAndView registrarAluno(@Valid Aluno aluno, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		ModelAndView modelAndView;
+		
+		if(bindingResult.hasErrors()) {
+			return new ModelAndView(FORMULARIO_ALUNO);
+		}
+		
+		if(alunoDAO.existe(aluno)) {
+			modelAndView = new ModelAndView(FORMULARIO_ALUNO);
+			modelAndView.addObject(MENSAGEM_ERRO, "Aluno já cadastrado");
+		}else {
+			alunoDAO.inserir(aluno);
+			modelAndView = new ModelAndView("redirect:bicicleta");
+			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistro());
 		}
 		
 		return modelAndView;
