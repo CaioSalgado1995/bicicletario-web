@@ -43,6 +43,9 @@
 							<th scope="col">Nome</th>
 							<th scope="col">Registro</th>
 							<th scope="col"></th>
+							<c:if test="${registrarSaida}">
+								<th scope="col"></th>
+							</c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -65,6 +68,14 @@
 										</a>
 									</c:if>
 								</th>
+								<c:if test="${registrarSaida}">
+									<th>
+										<a class="btn btn-primary"
+										   href="${s:mvcUrl('RC#consultarPeriodoUso').arg(0,aluno.registro).build()}">
+											Consultar período
+										</a>
+									</th>
+								</c:if>
 							</tr>
 						</c:forEach>
 					</tbody>

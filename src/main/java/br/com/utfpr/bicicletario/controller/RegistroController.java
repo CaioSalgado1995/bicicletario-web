@@ -2,6 +2,7 @@ package br.com.utfpr.bicicletario.controller;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
@@ -45,6 +46,49 @@ public class RegistroController {
 		modelAndView.addObject(VAR_DATA_ATUAL, Calendar.getInstance().getTime());
 		modelAndView.addObject(VAR_REGISTRO_ALUNO, registroAluno);
 
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/finalizados",method=RequestMethod.GET)
+	public ModelAndView consultarRegistrosFechados() {
+		ModelAndView modelAndView = new ModelAndView("/registro/historico");
+		List<Registro> registrosFinalizados = registroDAO.listaRegistroPorStatus(StatusRegistro.FECHADO.getCodigoStatus());
+	
+		if(registrosFinalizados.isEmpty()) {
+			modelAndView.addObject("listaVazia", true);
+			modelAndView.addObject("mensagemErro", "Não existe nenhum histórico de registros.");
+		}else {
+			modelAndView.addObject("listaRegistros", registrosFinalizados);
+		}
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/consulta/periodo/{registroAluno}", method=RequestMethod.GET)
+	public ModelAndView consultarPeriodoUso(@PathVariable String registroAluno) {
+		ModelAndView modelAndView = new ModelAndView("/registro/consultarPorPeriodo");
+		
+		Registro registroEntrada = 
+				registroDAO.buscaRegistro(registroAluno, StatusRegistro.ATIVO.getCodigoStatus());
+		
+		Calendar dataAtual = Calendar.getInstance();
+		Calendar dataEntradaAluno = registroEntrada.getDataEntrada();
+		
+		long diferencaTempo = Math.abs(dataEntradaAluno.getTimeInMillis() - dataAtual.getTimeInMillis());
+		
+		long dias = TimeUnit.MILLISECONDS.toDays(diferencaTempo);
+		long horas = (TimeUnit.MILLISECONDS.toHours(diferencaTempo) % 24);
+		long minutos = (TimeUnit.MILLISECONDS.toMinutes(diferencaTempo) % 60);
+		
+		modelAndView.addObject("dias", dias);
+		modelAndView.addObject("horas", horas);
+		modelAndView.addObject("minutos", minutos);
+		modelAndView.addObject(VAR_REGISTRO_ALUNO, registroAluno);
+		
+		if(dias >= 2) {
+			modelAndView.addObject("avisoTermino", true);
+		}
+		
 		return modelAndView;
 	}
 
@@ -98,21 +142,6 @@ public class RegistroController {
 		
 		registroDAO.atualiza(registroAtual);
 		redirectAttributes.addFlashAttribute("mensagemSucesso", "Registro de saída concluído para o aluno " + registro.getRegistroAluno());
-		return modelAndView;
-	}
-	
-	@RequestMapping(value="/finalizados",method=RequestMethod.GET)
-	public ModelAndView consultarRegistrosFechados() {
-		ModelAndView modelAndView = new ModelAndView("/registro/historico");
-		List<Registro> registrosFinalizados = registroDAO.listaRegistroPorStatus(StatusRegistro.FECHADO.getCodigoStatus());
-	
-		if(registrosFinalizados.isEmpty()) {
-			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject("mensagemErro", "Não existe nenhum histórico de registros.");
-		}else {
-			modelAndView.addObject("listaRegistros", registrosFinalizados);
-		}
-		
 		return modelAndView;
 	}
 
