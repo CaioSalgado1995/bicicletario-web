@@ -87,13 +87,19 @@ public class AlunoController {
 		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
 		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
 		
-		List<Aluno> alunosFiltradosPorNome = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
+		List<Aluno> alunosFiltrados;
 		
-		if(alunosFiltradosPorNome.isEmpty()) {
+		if(pesquisa.getNome().matches("[0-9]+")) {
+			alunosFiltrados = alunoDAO.buscarAlunoPelaMatricula(pesquisa.getNome());
+		}else {
+			alunosFiltrados = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
+		}
+		
+		if(alunosFiltrados.isEmpty()) {
 			modelAndView.addObject("listaVazia", true);
 			modelAndView.addObject(MENSAGEM_ERRO, "Não existe nenhum aluno com esse nome.");
 		}else {
-			modelAndView.addObject("listaAlunos", alunosFiltradosPorNome);
+			modelAndView.addObject("listaAlunos", alunosFiltrados);
 		}
 		
 		return modelAndView;

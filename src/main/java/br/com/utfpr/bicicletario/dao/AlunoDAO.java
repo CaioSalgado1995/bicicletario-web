@@ -40,6 +40,17 @@ public class AlunoDAO {
 		}
 	}
 	
+	public List<Aluno> buscarAlunoPelaMatricula(String registro) {
+		try {
+			return manager
+					.createQuery("select a from Aluno a where a.registro = :registro", Aluno.class)
+					.setParameter("registro", registro)
+					.getResultList();
+		} catch(NoResultException nre) {
+			return new ArrayList<Aluno>();
+		}
+	}
+	
 	public boolean existe(Aluno aluno) {
 		try {
 			manager
