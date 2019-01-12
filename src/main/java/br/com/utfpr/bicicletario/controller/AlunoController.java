@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.utfpr.bicicletario.dao.AlunoDAO;
 import br.com.utfpr.bicicletario.dao.RegistroDAO;
 import br.com.utfpr.bicicletario.models.Aluno;
+import br.com.utfpr.bicicletario.models.Pesquisa;
 import br.com.utfpr.bicicletario.models.Registro;
 import br.com.utfpr.bicicletario.models.StatusRegistro;
 
@@ -76,6 +77,23 @@ public class AlunoController {
 			List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
 			List<Aluno> listaAlunos = alunoDAO.listarAlunosComRegistroEntrada(registrosAlunos);
 			modelAndView.addObject("listaAlunos", listaAlunos);
+		}
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/busca", method=RequestMethod.POST)
+	public ModelAndView buscaAlunosPorNome(Pesquisa pesquisa) {
+		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
+		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
+		
+		List<Aluno> alunosFiltradosPorNome = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
+		
+		if(alunosFiltradosPorNome.isEmpty()) {
+			modelAndView.addObject("listaVazia", true);
+			modelAndView.addObject(MENSAGEM_ERRO, "Não existe nenhum aluno com esse nome.");
+		}else {
+			modelAndView.addObject("listaAlunos", alunosFiltradosPorNome);
 		}
 		
 		return modelAndView;

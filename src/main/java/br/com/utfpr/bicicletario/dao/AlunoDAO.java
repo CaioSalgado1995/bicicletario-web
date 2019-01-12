@@ -1,5 +1,6 @@
 package br.com.utfpr.bicicletario.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,8 +24,20 @@ public class AlunoDAO {
 	}
 	
 	public List<Aluno> listar() {
-		return manager.createQuery("select a from Aluno a order by a.nome asc", Aluno.class)
+		return manager
+				.createQuery("select a from Aluno a order by a.nome asc", Aluno.class)
 				.getResultList();
+	}
+	
+	public List<Aluno> listarAlunosPeloNome(String nome) {
+		try {
+			return manager
+					.createQuery("select a from Aluno a where a.nome like :nome order by a.nome asc", Aluno.class)
+					.setParameter("nome", "%" + nome + "%")
+					.getResultList();
+		} catch (NoResultException nre) {
+			return new ArrayList<Aluno>();
+		}
 	}
 	
 	public boolean existe(Aluno aluno) {

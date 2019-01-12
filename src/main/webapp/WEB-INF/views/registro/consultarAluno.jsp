@@ -34,7 +34,20 @@
 			<h2><c:out value="${mensagemErro}"/></h2>
 		</c:if>
 		
-		<c:if test="${!listaVazia}">
+		<!-- Formulário para pesquisa -->
+		<form:form action="${s:mvcUrl('AC#buscaAlunosPorNome').build()}" method="post"
+			commandName="pesquisa" cssStyle="margin-top: 15px;">
+			<div class="row">
+				<div class="col">
+					<input class="form-control mb-3" type="text" id="nome" name="nome">
+				</div>
+				<div class="col">
+					<input type="submit" class="btn btn-primary mb-3" value="Pesquisar"></a>
+				</div>
+			</div>
+		</form:form>
+		
+		<c:if test="${!listaVazia}">			
 			<div class="row" style="margin-top:20px;">
 				<table class="table">
 					<thead>
