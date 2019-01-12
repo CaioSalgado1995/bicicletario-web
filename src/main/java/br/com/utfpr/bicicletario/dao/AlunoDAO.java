@@ -69,4 +69,20 @@ public class AlunoDAO {
 				.setParameter(1, listaRegistrosAlunos)
 				.getResultList();
 	}
+	
+	public List<Aluno> listarAlunosComRegistroEntradaPorNome(List<String> listaRegistrosAlunos, String nome){
+		return manager
+				.createQuery("select a from Aluno a where a.registro in (?1) and a.nome like :nome", Aluno.class)
+				.setParameter(1, listaRegistrosAlunos)
+				.setParameter("nome", "%" + nome + "%")
+				.getResultList();
+	}
+	
+	public List<Aluno> listarAlunosComRegistroEntradaPorMatricula(List<String> listaRegistrosAlunos, String registro){
+		return manager
+				.createQuery("select a from Aluno a where a.registro in (?1) and a.registro = :registro", Aluno.class)
+				.setParameter(1, listaRegistrosAlunos)
+				.setParameter("registro", registro)
+				.getResultList();
+	}
 }

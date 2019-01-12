@@ -44,6 +44,9 @@
 				<div class="col">
 					<input type="submit" class="btn btn-primary mb-3" value="Pesquisar"></a>
 				</div>
+				
+				<input type="hidden" name="registrarEntrada" id="registrarEntrada" value="${registrarEntrada}">
+				<input type="hidden" name="registrarSaida" id="registrarSaida" value="${registrarSaida}">
 			</div>
 		</form:form>
 		

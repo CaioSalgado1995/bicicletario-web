@@ -89,16 +89,30 @@ public class AlunoController {
 		
 		List<Aluno> alunosFiltrados;
 		
-		if(pesquisa.getNome().matches("[0-9]+")) {
-			alunosFiltrados = alunoDAO.buscarAlunoPelaMatricula(pesquisa.getNome());
+		List<Registro> listaRegistro = registroEntradaDAO.listaRegistroPorStatus(StatusRegistro.ATIVO.getCodigoStatus());
+		List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
+		
+		if(pesquisa.isRegistrarEntrada()) {
+			if(pesquisa.getNome().matches("[0-9]+")) {
+				alunosFiltrados = alunoDAO.buscarAlunoPelaMatricula(pesquisa.getNome());
+			}else {
+				alunosFiltrados = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
+			}
 		}else {
-			alunosFiltrados = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
+			if(pesquisa.getNome().matches("[0-9]+")) {
+				alunosFiltrados = alunoDAO.listarAlunosComRegistroEntradaPorMatricula(registrosAlunos, pesquisa.getNome());
+			}else {
+				alunosFiltrados = alunoDAO.listarAlunosComRegistroEntradaPorNome(registrosAlunos, pesquisa.getNome());
+			}
 		}
+		
 		
 		if(alunosFiltrados.isEmpty()) {
 			modelAndView.addObject("listaVazia", true);
 			modelAndView.addObject(MENSAGEM_ERRO, "Não existe nenhum aluno com esse nome.");
 		}else {
+			modelAndView.addObject("registrarEntrada", pesquisa.isRegistrarEntrada());
+			modelAndView.addObject("registrarSaida", pesquisa.isRegistrarSaida());
 			modelAndView.addObject("listaAlunos", alunosFiltrados);
 		}
 		
