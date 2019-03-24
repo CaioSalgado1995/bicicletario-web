@@ -52,7 +52,7 @@
 						<c:forEach items="${listaRegistros}" var="registro">
 							<tr>
 								<th scope="row"></th>
-								<th>${registro.registroAluno}</th>
+								<th>${registro.aluno.registroAluno}</th>
 								<th><fmt:formatDate value="${registro.dataEntradaFormatada}" pattern="dd/MM/yyyy"/></th>
 								<th>${registro.horarioEntrada}</th>
 								<th><fmt:formatDate value="${registro.dataSaidaFormatada}" pattern="dd/MM/yyyy"/></th>

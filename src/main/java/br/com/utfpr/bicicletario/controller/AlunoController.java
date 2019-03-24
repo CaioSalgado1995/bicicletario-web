@@ -9,53 +9,51 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.utfpr.bicicletario.dao.AlunoDAO;
-import br.com.utfpr.bicicletario.dao.RegistroDAO;
 import br.com.utfpr.bicicletario.models.Aluno;
 import br.com.utfpr.bicicletario.models.Pesquisa;
-import br.com.utfpr.bicicletario.models.Registro;
 import br.com.utfpr.bicicletario.models.StatusRegistro;
 
 @Controller
 @RequestMapping("/aluno")
 public class AlunoController {
 	
+	private static final String TITULO_PAGINA = "tituloPagina";
+
+	private static final String LISTA_ALUNOS = "listaAlunos";
+
+	private static final String MENSAGEM_ERRO = "mensagemErro";
+	
+	private static final String FORMULARIO_ALUNO = "/cadastro/form";
+	
 	@Autowired
 	private AlunoDAO alunoDAO;
 	
-	@Autowired
-	private RegistroDAO registroEntradaDAO;
-	
-	private static final String MENSAGEM_ERRO = "mensagemErro";
-	private static final String FORMULARIO_ALUNO = "/cadastro/form";
-
+	/**
+	 * M√©todo que exibe formul√°rio para cadastro de um estudante
+	 * @return p√°gina para cadastro
+	 */
 	@RequestMapping(method=RequestMethod.GET)
 	public ModelAndView exibirFormulario() {
 		return new ModelAndView(FORMULARIO_ALUNO);
 	}
 	
 	@RequestMapping(value="/lista",method=RequestMethod.GET)
-	@Cacheable(value="listaAlunos")
+	@Cacheable(value=LISTA_ALUNOS)
 	public ModelAndView exibirListaAlunos() {
-		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
-		modelAndView.addObject("tituloPagina", "Lista de alunos j· cadastrados");
-		modelAndView.addObject("registrarEntrada", true);
-		modelAndView.addObject("registrarSaida", false);
+		ModelAndView modelAndView = configuraModelAndViewBase("/registro/consultarAluno", "Lista de alunos j√° cadastrados");
+	
+		List<Aluno> listaAlunos = alunoDAO.buscar(StatusRegistro.FECHADO.getCodigoStatus());
 		
-		List<Aluno> listaAlunos = alunoDAO.listar();
-		
-		if(listaAlunos.isEmpty()) {
-			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject(MENSAGEM_ERRO, 
-					"N„o existe nenhum aluno cadastrado, favor cadatrar um aluno antes de registrar sua entrada");
-		}else {
-			modelAndView.addObject("listaAlunos", listaAlunos);
-		}
+		modelAndView.addObject(MENSAGEM_ERRO, 
+				"N√£o existe nenhum aluno cadastrado, favor cadatrar um aluno antes de registrar sua entrada");
+		modelAndView.addObject(LISTA_ALUNOS, listaAlunos);
 		
 		return modelAndView;
 	}
@@ -63,80 +61,83 @@ public class AlunoController {
 	@RequestMapping(value="/lista/ativos",method=RequestMethod.GET)
 	@Cacheable(value="listaAlunosComRegistroEntrada")
 	public ModelAndView exibirListaAlunosComRegistroAtivo() {
-		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
-		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
-		modelAndView.addObject("registrarEntrada", false);
-		modelAndView.addObject("registrarSaida", true);
+		ModelAndView modelAndView = configuraModelAndViewBase("/registro/consultarAlunoSaida", "Lista de alunos com registro de entrada");
 		
-		List<Registro> listaRegistro = registroEntradaDAO.listaRegistroPorStatus(StatusRegistro.ATIVO.getCodigoStatus());
-		
-		if(listaRegistro.isEmpty()) {
-			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject(MENSAGEM_ERRO, "N„o existe nenhum aluno com registro de entrada.");
-		}else {
-			List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
-			List<Aluno> listaAlunos = alunoDAO.listarAlunosComRegistroEntrada(registrosAlunos);
-			modelAndView.addObject("listaAlunos", listaAlunos);
-		}
+		List<Aluno> listaAlunos = alunoDAO.buscar(StatusRegistro.ATIVO.getCodigoStatus());
+
+		modelAndView.addObject(MENSAGEM_ERRO, "N√£o existe nenhum aluno com registro de entrada.");
+		modelAndView.addObject(LISTA_ALUNOS, listaAlunos);
 		
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="/busca", method=RequestMethod.POST)
-	public ModelAndView buscaAlunosPorNome(Pesquisa pesquisa) {
-		ModelAndView modelAndView = new ModelAndView("/registro/consultarAluno");
-		modelAndView.addObject("tituloPagina", "Lista de alunos com registro de entrada");
+	public ModelAndView buscarAlunos(Pesquisa pesquisa) {
+		ModelAndView modelAndView;
 		
-		List<Aluno> alunosFiltrados;
-		
-		List<Registro> listaRegistro = registroEntradaDAO.listaRegistroPorStatus(StatusRegistro.ATIVO.getCodigoStatus());
-		List<String> registrosAlunos = new Registro().converteListaRegistro(listaRegistro);
-		
-		if(pesquisa.isRegistrarEntrada()) {
-			if(pesquisa.getNome().matches("[0-9]+")) {
-				alunosFiltrados = alunoDAO.buscarAlunoPelaMatricula(pesquisa.getNome());
-			}else {
-				alunosFiltrados = alunoDAO.listarAlunosPeloNome(pesquisa.getNome());
-			}
+		if(pesquisa.getStatus() == 1) {
+			modelAndView = new ModelAndView("/registro/consultarAlunoSaida");
+			modelAndView.addObject(TITULO_PAGINA, "Lista de alunos com registro de entrada");
 		}else {
-			if(pesquisa.getNome().matches("[0-9]+")) {
-				alunosFiltrados = alunoDAO.listarAlunosComRegistroEntradaPorMatricula(registrosAlunos, pesquisa.getNome());
-			}else {
-				alunosFiltrados = alunoDAO.listarAlunosComRegistroEntradaPorNome(registrosAlunos, pesquisa.getNome());
-			}
+			modelAndView = new ModelAndView("/registro/consultarAluno");
+			modelAndView.addObject(TITULO_PAGINA, "Lista de alunos");
 		}
 		
-		
-		if(alunosFiltrados.isEmpty()) {
-			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject(MENSAGEM_ERRO, "N„o existe nenhum aluno com esse nome.");
-		}else {
-			modelAndView.addObject("registrarEntrada", pesquisa.isRegistrarEntrada());
-			modelAndView.addObject("registrarSaida", pesquisa.isRegistrarSaida());
-			modelAndView.addObject("listaAlunos", alunosFiltrados);
-		}
-		
+		List<Aluno> alunos = alunoDAO.buscar(pesquisa.getNome(), pesquisa.getStatus());
+		modelAndView.addObject(MENSAGEM_ERRO, "N√£o existe nenhum aluno com esse nome.");
+		modelAndView.addObject(LISTA_ALUNOS, alunos);
+			
 		return modelAndView;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	@CacheEvict(value="listaAlunos" ,allEntries=true)
-	public ModelAndView registrarAluno(@Valid Aluno aluno, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+	@CacheEvict(value=LISTA_ALUNOS ,allEntries=true)
+	public ModelAndView registrarAluno(@Valid Aluno aluno, BindingResult bindingResult, 
+			RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView;
 		
 		if(bindingResult.hasErrors()) {
 			return new ModelAndView(FORMULARIO_ALUNO);
 		}
 		
-		if(alunoDAO.existe(aluno)) {
+		if(alunoDAO.existir(aluno)) {
 			modelAndView = new ModelAndView(FORMULARIO_ALUNO);
-			modelAndView.addObject(MENSAGEM_ERRO, "Aluno j· cadastrado");
+			modelAndView.addObject(MENSAGEM_ERRO, "Aluno j√° cadastrado");
 		}else {
 			alunoDAO.inserir(aluno);
 			modelAndView = new ModelAndView("redirect:bicicleta");
-			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistro());
+			redirectAttributes.addFlashAttribute("registroAluno", aluno.getRegistroAluno());
 		}
 		
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/deletar", method=RequestMethod.GET)
+	public ModelAndView deletar(@PathVariable String registroAluno) {
+		ModelAndView modelAndView = new ModelAndView("/aluno/confirmarDadosRemocao");
+
+		Aluno aluno = alunoDAO.buscar(registroAluno);
+		modelAndView.addObject("aluno", aluno);
+		
+		return modelAndView;
+		
+	}
+	
+	@RequestMapping(value="/deletar", method=RequestMethod.POST)
+	public ModelAndView deletar(@Valid Aluno aluno,
+			RedirectAttributes redirectAttributes) {
+		ModelAndView modelAndView = new ModelAndView("redirect:home");
+
+		alunoDAO.deletar(aluno);
+		redirectAttributes.addFlashAttribute("mensagemSucesso", "Aluno removido com sucesso!");
+		
+		return modelAndView;
+		
+	}
+	
+	private ModelAndView configuraModelAndViewBase(String caminho, String tituloPagina) {
+		ModelAndView modelAndView = new ModelAndView(caminho);
+		modelAndView.addObject(TITULO_PAGINA, tituloPagina);
 		return modelAndView;
 	}
 	

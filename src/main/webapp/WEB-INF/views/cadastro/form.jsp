@@ -35,9 +35,9 @@
 				<form:errors cssClass="text-danger" path="nome"></form:errors>
 			</div>
 			<div class="form-group">
-				<label for="registro">Registro Acadêmico (RA):</label>
-				<input type="text" class="form-control" id="registro" name="registro">	
-				<form:errors cssClass="text-danger" path="registro"></form:errors>
+				<label for="registroAluno">Registro Acadêmico (RA):</label>
+				<input type="text" class="form-control" id="registroAluno" name="registroAluno">	
+				<form:errors cssClass="text-danger" path="registroAluno"></form:errors>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Cadastrar</button>

@@ -46,7 +46,7 @@
 						<input type="submit" class="btn btn-primary mb-3" value="Pesquisar">
 					</div>
 					
-					<input type="hidden" id="status" name="status" value="2">
+					<input type="hidden" id="status" name="status" value="1">
 				</div>
 			</form:form>
 			
@@ -58,6 +58,7 @@
 							<th scope="col">Nome</th>
 							<th scope="col">Registro</th>
 							<th scope="col"></th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,8 +69,14 @@
 								<th>${aluno.registroAluno}</th>
 								<th>
 									<a class="btn btn-primary" 
-									   href="${s:mvcUrl('RC#registroEntradaAlunoJaCadastrado').arg(0,aluno.registroAluno).build()}">
+									   href="${s:mvcUrl('RC#registroSaidaAluno').arg(0,aluno.registroAluno).build()}">
 										Selecionar
+									</a>	
+								</th>
+								<th>
+									<a class="btn btn-primary"
+									   href="${s:mvcUrl('RC#consultarPeriodoUso').arg(0,aluno.registroAluno).build()}">
+										Consultar período
 									</a>
 								</th>
 							</tr>

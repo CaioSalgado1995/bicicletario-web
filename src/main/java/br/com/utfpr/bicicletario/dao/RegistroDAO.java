@@ -29,9 +29,9 @@ public class RegistroDAO {
 	public boolean existeRegistroAtivo(Registro registroEntrada) {
 		try {
 			manager
-			.createQuery("select r from Registro r where r.registroAluno = :registroAluno AND r.status = :status", 
+			.createQuery("select r from Registro r where r.aluno.registroAluno = :registroAluno AND r.status = :status", 
 					Registro.class)
-			.setParameter("registroAluno", registroEntrada.getRegistroAluno())
+			.setParameter("registroAluno", registroEntrada.getAluno().getRegistroAluno())
 			.setParameter(STATUS, StatusRegistro.ATIVO.getCodigoStatus())
 			.getSingleResult();
 			return true;
@@ -41,7 +41,7 @@ public class RegistroDAO {
 	}
 
 	public Registro buscaRegistro(String registroAluno, int codigoStatus) {
-		return manager.createQuery("select r from Registro r where r.registroAluno = :registroAluno AND r.status = :status",
+		return manager.createQuery("select r from Registro r where r.aluno.registroAluno = :registroAluno AND r.status = :status",
 				Registro.class)
 			.setParameter("registroAluno", registroAluno)
 			.setParameter(STATUS, codigoStatus)

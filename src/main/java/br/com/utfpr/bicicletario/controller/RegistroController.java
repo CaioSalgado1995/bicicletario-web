@@ -1,5 +1,6 @@
 package br.com.utfpr.bicicletario.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.com.utfpr.bicicletario.dao.AlunoDAO;
 import br.com.utfpr.bicicletario.dao.RegistroDAO;
+import br.com.utfpr.bicicletario.models.Aluno;
 import br.com.utfpr.bicicletario.models.BaseRegistro;
 import br.com.utfpr.bicicletario.models.Registro;
 import br.com.utfpr.bicicletario.models.StatusRegistro;
@@ -27,6 +30,9 @@ public class RegistroController {
 
 	@Autowired
 	private RegistroDAO registroDAO;
+	
+	@Autowired
+	private AlunoDAO alunoDAO;
 	
 	private static final String VAR_DATA_ATUAL = "dataAtual";
 	private static final String VAR_REGISTRO_ALUNO = "registroAluno";
@@ -52,11 +58,12 @@ public class RegistroController {
 	@RequestMapping(value="/finalizados",method=RequestMethod.GET)
 	public ModelAndView consultarRegistrosFechados() {
 		ModelAndView modelAndView = new ModelAndView("/registro/historico");
-		List<Registro> registrosFinalizados = registroDAO.listaRegistroPorStatus(StatusRegistro.FECHADO.getCodigoStatus());
+		List<Registro> registrosFinalizados = 
+				registroDAO.listaRegistroPorStatus(StatusRegistro.FECHADO.getCodigoStatus());
 	
 		if(registrosFinalizados.isEmpty()) {
 			modelAndView.addObject("listaVazia", true);
-			modelAndView.addObject("mensagemErro", "Não existe nenhum histórico de registros.");
+			modelAndView.addObject("mensagemErro", "Nï¿½o existe nenhum histï¿½rico de registros.");
 		}else {
 			modelAndView.addObject("listaRegistros", registrosFinalizados);
 		}
@@ -108,21 +115,28 @@ public class RegistroController {
 		// externalizar isso para a modelo
 		Registro registroFinal = new Registro();
 		registroFinal.setStatus(StatusRegistro.ATIVO.getCodigoStatus());
-		registroFinal.setRegistroAluno(registro.getRegistroAluno());
+		
+		Aluno aluno = alunoDAO.buscar(registro.getRegistroAluno());
+		
+		registroFinal.setAluno(aluno);
 		registroFinal.setDataEntrada(Calendar.getInstance());
 		registroFinal.setHorarioEntrada(registro.getHorario());
 		
 		if(registroDAO.existeRegistroAtivo(registroFinal)) {
-			redirectAttributes.addFlashAttribute("mensagemErro", "O Aluno " + registroFinal.getRegistroAluno() + " já tem registro de entrada");
+			redirectAttributes.addFlashAttribute("mensagemErro", "O Aluno " + registroFinal.getAluno().getRegistroAluno() + " jï¿½ tem registro de entrada");
 		}else {
+			List<Registro> listaRegistro = new ArrayList<>();
+			listaRegistro.add(registroFinal);
+			aluno.setRegistro(listaRegistro);
 			registroDAO.inserir(registroFinal);
-			redirectAttributes.addFlashAttribute("mensagemSucesso", "Registro de entrada concluído para o aluno " + registroFinal.getRegistroAluno());
+			redirectAttributes.addFlashAttribute("mensagemSucesso", "Registro de entrada concluï¿½do para o aluno " + registroFinal.getAluno().getRegistroAluno());
 		}
 
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="/saida",method=RequestMethod.POST)
+	@CacheEvict(value="listaAlunos" ,allEntries=true)
 	public ModelAndView atualizarRegistroComSaida(@Valid BaseRegistro registro, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		ModelAndView modelAndView;
 		
@@ -141,7 +155,7 @@ public class RegistroController {
 		registroAtual.setStatus(StatusRegistro.FECHADO.getCodigoStatus());
 		
 		registroDAO.atualiza(registroAtual);
-		redirectAttributes.addFlashAttribute("mensagemSucesso", "Registro de saída concluído para o aluno " + registro.getRegistroAluno());
+		redirectAttributes.addFlashAttribute("mensagemSucesso", "Registro de saï¿½da concluï¿½do para o aluno " + registro.getRegistroAluno());
 		return modelAndView;
 	}
 

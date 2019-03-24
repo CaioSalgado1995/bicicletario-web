@@ -18,7 +18,7 @@
 <body>
 	<div class="container">
 	
-		<h1>Cadastro do bicicleta</h1>
+		<h1>Cadastro de bicicleta</h1>
 		<form:form action="${s:mvcUrl('BC#inserirBicicleta').build()}" method="post" commandName="bicicleta">
 			<div class="form-group">
 				<label for="marca">Marca:</label>

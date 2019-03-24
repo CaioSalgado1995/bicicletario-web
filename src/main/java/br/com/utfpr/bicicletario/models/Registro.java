@@ -1,15 +1,15 @@
 package br.com.utfpr.bicicletario.models;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,8 +32,8 @@ public class Registro {
 	
 	private int status;
 
-	@NotNull
-	private String registroAluno;
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Aluno.class)
+	private Aluno aluno;
 	
 	public int getId() {
 		return id;
@@ -42,15 +42,15 @@ public class Registro {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public String getRegistroAluno() {
-		return registroAluno;
-	}
-
-	public void setRegistroAluno(String registroAluno) {
-		this.registroAluno = registroAluno;
-	}
 	
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+
 	public Calendar getDataEntrada() {
 		return dataEntrada;
 	}
@@ -98,15 +98,5 @@ public class Registro {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
-	public List<String> converteListaRegistro(List<Registro> listaRegistros) {
-		List<String> registros = new ArrayList<String>();
-		for (Registro registroEntrada : listaRegistros) {
-			registros.add(registroEntrada.getRegistroAluno());
-		}
-		return registros;
-	}
-	
-	
 }
 

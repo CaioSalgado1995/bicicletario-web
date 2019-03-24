@@ -4,9 +4,7 @@ public class Pesquisa {
 	
 	private String nome;
 	
-	private boolean registrarEntrada;
-	
-	private boolean registrarSaida;
+	private int status;
 
 	public String getNome() {
 		return nome;
@@ -16,21 +14,11 @@ public class Pesquisa {
 		this.nome = nome;
 	}
 
-	public boolean isRegistrarEntrada() {
-		return registrarEntrada;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setRegistrarEntrada(boolean registrarEntrada) {
-		this.registrarEntrada = registrarEntrada;
+	public void setStatus(int status) {
+		this.status = status;
 	}
-
-	public boolean isRegistrarSaida() {
-		return registrarSaida;
-	}
-
-	public void setRegistrarSaida(boolean registrarSaida) {
-		this.registrarSaida = registrarSaida;
-	}
-	
-	
 }
